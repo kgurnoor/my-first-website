@@ -56,8 +56,7 @@ export default function Footer() {
 
       {/* Contact Information Section */}
       <div className="mt-8 text-neutral-600 dark:text-neutral-300">
-        <p>Contact: +91 7710797168</p> {/* Replace with your actual number */}
-        <p>Email: gurnoorkaur0349@gmail.com</p> {/* Replace with your actual email */}
+        <p>Email: gurnoorkaur0349@gmail.com</p> 
       </div>
 
       <p className="mt-8 text-neutral-600 dark:text-neutral-300">
