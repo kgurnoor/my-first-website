@@ -1,0 +1,93 @@
+---
+title: "Chat with Multiple PDFs using Gemini Pro with Advanced Features"
+date: "2025-04-11"
+summary: "A Streamlit web application enabling users to chat with multiple PDFs, merge PDFs, extract images, and perform image-to-text conversion, all powered by the Google Gemini Pro model."
+liveUrl: "https://chat-with-pdfs-udouqrabxvtk5axzfotmnz.streamlit.app/"
+githubUrl: "https://github.com/kgurnoor/gemini_multipdf_chat"
+tags: ["Streamlit", "Python", "Google Gemini Pro", "PDF Processing", "Langchain", "Chat History", "Document Management", "PDF Merging", "Image Extraction", "Image to Text"]
+---
+
+## Introduction
+
+The "Chat with Multiple PDFs using Gemini Pro with Advanced Features" application is a comprehensive Streamlit-based web tool designed for intelligent document interaction and manipulation. Beyond enabling natural language chat with multiple PDFs powered by the Google Gemini Pro model and Langchain, this application offers the capabilities to merge PDF documents, extract images embedded within PDFs, and perform image-to-text conversion on those extracted images.
+
+## Key Features
+
+* **Multi-PDF Chat:** Seamlessly upload and query the combined information from several PDF documents.
+* **Natural Language Conversation:** Engage in intuitive conversations with your documents.
+* **Google Gemini Pro Integration:** Leverages Google's advanced Gemini Pro model for accurate and context-aware responses and potentially for analyzing extracted image content.
+* **Langchain for Efficient Processing:** Utilizes Langchain for optimized document loading, splitting, embedding, and retrieval.
+* **Streamlit Interface:** Provides an interactive and easy-to-use web interface built with Streamlit.
+* **Chat History:** Maintains a history of your questions and the model's responses within the session.
+* **Basic Document Management:** Allows users to see a list of uploaded documents.
+* **PDF Merging:** Enables users to upload multiple PDF files and merge them into a single PDF document.
+* **Image Extraction:** Allows users to extract all images embedded within the uploaded PDF documents.
+* **Image to Text Conversion (OCR):** Provides the functionality to perform Optical Character Recognition (OCR) on extracted images, converting the text within them into machine-readable text.
+
+## Technologies Used
+
+* **Streamlit:** The core Python library for building the interactive web application.
+* **Python:** The primary programming language for application logic.
+* **Google Gemini Pro:** The advanced large language model from Google AI, potentially used for analyzing image content after OCR.
+* **Langchain:** The framework facilitating interaction with the language model and document processing.
+* **PyPDF2:** A Python library for extracting text content and potentially merging PDF files.
+* **streamlit-chat:** A Streamlit component for creating the conversational chat interface, including history management.
+* **Pillow (PIL):** A Python Imaging Library used for image manipulation and handling.
+* **Tesseract OCR:** An open-source OCR engine (requires installation) used for image-to-text conversion.
+* **pytesseract:** A Python wrapper for the Tesseract OCR engine.
+
+## How It Works
+
+1.  **PDF Upload:** Users upload one or more PDF files through the Streamlit file uploader.
+2.  **Document Processing and Indexing:** The application processes the uploaded PDFs using Langchain and PyPDF2, splitting the text into chunks and generating vector embeddings for efficient semantic search.
+3.  **Chat Interaction:** Users type their questions into the chat input field.
+4.  **Intelligent Retrieval:** Langchain's retrieval mechanisms identify the most relevant document chunks based on the user's query and the generated embeddings.
+5.  **Gemini Pro Response Generation:** The relevant document context and the user's question are passed to the Google Gemini Pro model.
+6.  **Displaying Chat History:** The user's questions and the model's answers are displayed chronologically in the chat interface, managed by the `streamlit-chat` component.
+7.  **Uploaded Document List:** A section displays the names of the currently uploaded PDF documents.
+8.  **PDF Merging:** Users can select multiple uploaded PDFs and initiate a merging process using PyPDF2. The merged PDF can then be downloaded.
+9.  **Image Extraction:** Users can trigger the extraction of all images from the uploaded PDFs. The application uses PyPDF2 and Pillow to identify and save the embedded images.
+10. **Image to Text Conversion:** Users can select extracted images, and the application utilizes pytesseract (with Tesseract OCR) to convert the text within those images into machine-readable text, which can then potentially be used in the chat or displayed to the user.
+
+## Getting Started
+
+To run this project locally:
+
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/kgurnoor/gemini_multipdf_chat](https://github.com/kgurnoor/gemini_multipdf_chat)
+    cd gemini_multipdf_chat
+    ```
+2.  Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Install Tesseract OCR:
+    - You will need to install the Tesseract OCR engine separately on your system. Refer to the Tesseract documentation for installation instructions specific to your operating system.
+4.  Configure your Google Gemini Pro API key:
+    - Set your Google Gemini Pro API key as an environment variable (recommended) or within your Python script. Consult the Google Cloud documentation for instructions.
+5.  Run the Streamlit application:
+    ```bash
+    streamlit run app.py
+    ```
+6.  Open your web browser to the address shown in the terminal (typically `http://localhost:8501`).
+
+## Deployment
+
+This Streamlit application can be deployed using Streamlit sharing or other Python web hosting platforms that support Streamlit. For the image-to-text functionality, ensure that Tesseract OCR is either pre-installed on the deployment environment or containerized with your application.
+
+## Future Enhancements
+
+* **More robust document management:** Implement features to delete uploaded documents, rename them, or organize them into collections.
+* **User authentication and session management:** Allow users to save their chat history, uploaded documents, and extracted images across sessions.
+* **Advanced image analysis with Gemini Pro:** Explore using Gemini Pro's multimodal capabilities to directly analyze extracted images and incorporate that understanding into the chat.
+* **More advanced querying options:** Explore features like follow-up questions, clarifying questions, and the ability to focus the conversation on specific documents or extracted image content.
+* **Integration with other data sources:** Consider expanding the application to handle other file types or connect to external knowledge bases.
+* **Improved UI/UX:** Continuously refine the user interface and user experience for all features.
+* **Error handling and feedback mechanisms:** Implement more robust error handling and provide clearer feedback to the user during all operations.
+* **Options for customizing merging and image extraction:** Allow users to select specific pages for merging or specify criteria for image extraction.
+
+## Contributing
+
+Contributions to the "Chat with Multiple PDFs using Gemini Pro with Advanced Features" project are highly encouraged! Please submit pull requests for bug fixes, new features, and improvements. Feel free to open issues to discuss potential changes or report problems.
+
