@@ -9,7 +9,7 @@ export interface Project {
     frontmatter: {
         title: string;
         date: string;
-        summary: string;
+        summary?: string;
         image?: string;
         liveUrl?: string;
         githubUrl?: string;
