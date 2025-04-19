@@ -1,76 +1,79 @@
+// utils.ts
+import fs from 'fs';
 import path from 'path';
-import { readdirSync, readFileSync } from 'fs';
-import matter from 'gray-matter';
 
-const achievementsDirectory = path.join(process.cwd(), 'content/achievements');
+export type AchievementMetadata = {
+  title: string;
+  date: string;
+  summary: string;
+  certificateLink: string;
+};
 
-export interface Achievement {
-    slug: string;
-    frontmatter: {
-        title: string;
-        date: string;
-        summary?: string;
-        // Add other frontmatter properties as needed
+function parseAchievementFrontmatter(fileContent: string): { metadata: AchievementMetadata; content: string } {
+  const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
+  const match = frontmatterRegex.exec(fileContent);
+
+  if (!match || !match[1]) {
+    return {
+      metadata: {
+        title: '',
+        date: '',
+        summary: '',
+        certificateLink: '',
+      },
+      content: fileContent,
     };
-    content: string;
+  }
+
+  const frontMatterBlock = match[1];
+  const content = fileContent.replace(frontmatterRegex, '').trim();
+  const frontMatterLines = frontMatterBlock.trim().split('\n');
+  const metadata: Partial<AchievementMetadata> = {};
+
+  frontMatterLines.forEach((line) => {
+    const [key, ...valueArr] = line.split(': ');
+    const value = valueArr.join(': ').trim();
+    metadata[key.trim() as keyof AchievementMetadata] = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
+  });
+
+  return { metadata: metadata as AchievementMetadata, content };
 }
 
-let fs: typeof import('fs') | null = null;
-
-async function loadFs() {
-    if (process.env.NEXT_RUNTIME === 'nodejs') {
-        fs = await import('fs');
-    }
+function getAchievementMDXFiles(dir: string): string[] {
+  return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx' || path.extname(file) === '.md');
 }
 
-loadFs(); // Immediately invoke the function to load 'fs' if in Node.js environment
-
-export function getAchievementSlugs(): string[] {
-    if (!fs) return []; // Return empty array if 'fs' hasn't loaded
-
-    try {
-        const fileNames = fs.readdirSync(achievementsDirectory);
-        return fileNames.map((fileName) => fileName.replace(/\.mdx$/, ''));
-    } catch (error) {
-        console.error("Error reading achievements directory:", error);
-        return [];
-    }
+function readAchievementMDXFile(filePath: string): { metadata: AchievementMetadata; content: string } {
+  const rawContent = fs.readFileSync(filePath, 'utf-8');
+  return parseAchievementFrontmatter(rawContent);
 }
 
-export function getAchievementBySlug(slug: string): Achievement | null {
-    if (!fs) return null;
+function getAchievementData(dir: string): { metadata: AchievementMetadata; slug: string; content: string }[] {
+  const mdxFiles = getAchievementMDXFiles(dir);
+  return mdxFiles.map((file) => {
+    const { metadata, content } = readAchievementMDXFile(path.join(dir, file));
+    const slug = path.basename(file, path.extname(file));
 
-    try {
-        const fullPath = path.join(achievementsDirectory, `${slug}.mdx`);
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
-        const { data, content } = matter(fileContents);
-
-        return {
-            slug,
-            frontmatter: data as Achievement['frontmatter'],
-            content,
-        };
-    } catch (error) {
-        console.error(`Error reading achievement with slug "${slug}":`, error);
-        return null;
-    }
+    return {
+      metadata,
+      slug,
+      content,
+    };
+  });
 }
 
-export function getAllAchievements(): Achievement[] {
-    const slugs = getAchievementSlugs();
-    return slugs
-        .map((slug) => getAchievementBySlug(slug))
-        .filter((achievement): achievement is Achievement => !!achievement);
+export function getAchievements() {
+  return getAchievementData(path.join(process.cwd(), 'app', 'achievements', 'posts'));
 }
 
-export function formatAchievementDate(dateString: string, includeTime = false): string {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    if (includeTime) {
-        options.hour = 'numeric';
-        options.minute = '2-digit';
-        options.second = '2-digit';
-        options.timeZoneName = 'short';
-    }
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+export function formatAchievementDate(date: string): string {
+  if (!date.includes('T')) {
+    date = `${date}T00:00:00`;
+  }
+  const targetDate = new Date(date);
+  return targetDate.toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 }

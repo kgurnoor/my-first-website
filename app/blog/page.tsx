@@ -1,15 +1,16 @@
-import { BlogPosts } from 'app/components/posts'
+// app/achievements/page.tsx
+import { AchievementPosts } from 'app/components/posts';
 
 export const metadata = {
-  title: 'Blog',
-  description: 'Read my blog.',
-}
+    title: 'Achievements',
+    description: 'My Achievements',
+};
 
-export default function Page() {
-  return (
-    <section>
-      <h1 className="font-semibold text-2xl mb-8 tracking-tighter">My Blog</h1>
-      <BlogPosts />
-    </section>
-  )
+export default function AchievementsPage() {
+    return (
+        <section>
+            <h1 className="font-semibold text-2xl mb-8 tracking-tighter">My Achievements</h1>
+            <AchievementPosts />
+        </section>
+    );
 }

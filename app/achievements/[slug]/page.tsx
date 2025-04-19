@@ -1,9 +1,10 @@
 // app/achievements/[slug]/page.tsx
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/mdx'; // Assuming you'll reuse your MDX component
-import { getAchievementBySlug, getAchievementSlugs, Achievement } from 'app/achievements/utils';
+import { CustomMDX } from 'app/components/mdx';
+import { getAchievementBySlug, getAchievementSlugs } from 'app/achievements/utils';
 import { Metadata } from 'next';
-import { formatAchievementDate } from 'app/achievements/utils'; // Import the date formatting function
+import { formatAchievementDate } from 'app/achievements/utils';
+import { baseUrl } from 'app/sitemap'; // Assuming you have a baseUrl defined
 
 export async function generateStaticParams() {
     const slugs = getAchievementSlugs();
@@ -16,10 +17,31 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
         return undefined;
     }
 
+    const { title, date, summary } = achievement.frontmatter;
+    const description = summary || `Read more about ${title} achieved on ${formatAchievementDate(date)}`;
+    const ogImage = `${baseUrl}/og?title=${encodeURIComponent(title)}`; // Adapt as needed
+
     return {
-        title: achievement.frontmatter.title,
-        description: achievement.frontmatter.summary,
-        // You can add more metadata here
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            type: 'article',
+            publishedTime: date, // Use achievement date as published time
+            url: `${baseUrl}/achievements/${params.slug}`,
+            images: [
+                {
+                    url: ogImage,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: [ogImage],
+        },
     };
 }
 
@@ -37,20 +59,23 @@ export default async function AchievementPage({ params }: Props) {
     }
 
     return (
-        <article className="prose dark:prose-invert max-w-3xl"> {/* Use similar styling as blog/projects */}
-            <h1 className="font-bold text-3xl md:text-5xl mb-4 tracking-tight">
+        <section>
+            <h1 className="title font-semibold text-2xl tracking-tighter">
                 {achievement.frontmatter.title}
             </h1>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
-                Achieved on {formatAchievementDate(achievement.frontmatter.date)}
-            </p>
+            <div className="flex justify-between items-center mt-2 mb-8 text-sm">
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Achieved on {formatAchievementDate(achievement.frontmatter.date)}
+                </p>
+            </div>
             {achievement.frontmatter.summary && (
                 <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-6">
                     {achievement.frontmatter.summary}
                 </p>
             )}
-            <CustomMDX source={achievement.content} /> {/* Reuse your CustomMDX component */}
-            {/* You can add other relevant information or links here */}
-        </article>
+            <article className="prose dark:prose-invert max-w-3xl">
+                <CustomMDX source={achievement.content} />
+            </article>
+        </section>
     );
 }
