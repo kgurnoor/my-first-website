@@ -1,71 +1,76 @@
-// app/achievements/utils.ts
 import path from 'path';
+import { readdirSync, readFileSync } from 'fs';
 import matter from 'gray-matter';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Update this path to point to the new 'posts' subdirectory within 'achievements'
-const achievementsDirectory = path.join(__dirname, 'posts');
-
-export interface AchievementFrontmatter {
-    title: string;
-    date: string;
-    summary?: string;
-    certificateLink?: string;
-    thumbnail?: string;
-    [key: string]: any; // Allow other frontmatter fields
-}
+const achievementsDirectory = path.join(process.cwd(), 'content/achievements');
 
 export interface Achievement {
     slug: string;
-    frontmatter: AchievementFrontmatter;
+    frontmatter: {
+        title: string;
+        date: string;
+        summary?: string;
+        // Add other frontmatter properties as needed
+    };
     content: string;
 }
 
 let fs: typeof import('fs') | null = null;
-if (process.env.NEXT_RUNTIME === 'nodejs') {
-    fs = await import('fs');
+
+async function loadFs() {
+    if (process.env.NEXT_RUNTIME === 'nodejs') {
+        fs = await import('fs');
+    }
 }
 
+loadFs(); // Immediately invoke the function to load 'fs' if in Node.js environment
+
 export function getAchievementSlugs(): string[] {
-    if (!fs) return [];
+    if (!fs) return []; // Return empty array if 'fs' hasn't loaded
+
     try {
         const fileNames = fs.readdirSync(achievementsDirectory);
-        return fileNames.map((fileName) => fileName.replace(/\.mdx?$/, ''));
+        return fileNames.map((fileName) => fileName.replace(/\.mdx$/, ''));
     } catch (error) {
         console.error("Error reading achievements directory:", error);
         return [];
     }
 }
 
-export function getAchievementBySlug(slug: string): Achievement | undefined {
-    if (!fs) return undefined;
-    const fullPath = path.join(achievementsDirectory, `${slug}.mdx`);
+export function getAchievementBySlug(slug: string): Achievement | null {
+    if (!fs) return null;
+
     try {
+        const fullPath = path.join(achievementsDirectory, `${slug}.mdx`);
         const fileContents = fs.readFileSync(fullPath, 'utf8');
         const { data, content } = matter(fileContents);
 
         return {
             slug,
-            frontmatter: data as AchievementFrontmatter,
+            frontmatter: data as Achievement['frontmatter'],
             content,
         };
     } catch (error) {
         console.error(`Error reading achievement with slug "${slug}":`, error);
-        return undefined;
+        return null;
     }
 }
 
 export function getAllAchievements(): Achievement[] {
     const slugs = getAchievementSlugs();
-    return slugs.map((slug) => getAchievementBySlug(slug)).filter((achievement) => achievement !== undefined) as Achievement[];
+    return slugs
+        .map((slug) => getAchievementBySlug(slug))
+        .filter((achievement): achievement is Achievement => !!achievement);
 }
 
-export function formatAchievementDate(dateString: string): string {
+export function formatAchievementDate(dateString: string, includeTime = false): string {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    if (includeTime) {
+        options.hour = 'numeric';
+        options.minute = '2-digit';
+        options.second = '2-digit';
+        options.timeZoneName = 'short';
+    }
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
