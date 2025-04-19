@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { formatDate, getBlogPosts } from 'app/blog/utils';
 import { getAllProjects, Project } from 'app/projects/utils';
+import { getAllAchievements, formatAchievementDate } from 'app/achievements/utils'; // Import achievement functions
 
 export function BlogPosts() {
     let allBlogs = getBlogPosts();
@@ -62,6 +63,31 @@ export function ProjectPosts() {
                                 {project.frontmatter.title}
                             </p>
                         </div>
+                    </Link>
+                ))}
+        </div>
+    );
+}
+
+export function AchievementPosts() {
+    const allAchievements = getAllAchievements();
+
+    return (
+        <div>
+            {allAchievements
+                .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
+                .map((achievement) => (
+                    <Link
+                        key={achievement.slug}
+                        className="flex flex-col md:flex-row space-y-1 md:space-x-4 mb-4"
+                        href={`/achievements/${achievement.slug}`}
+                    >
+                        <p className="text-neutral-600 dark:text-neutral-400 w-[120px] tabular-nums">
+                            {formatAchievementDate(achievement.frontmatter.date)}
+                        </p>
+                        <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+                            {achievement.frontmatter.title}
+                        </p>
                     </Link>
                 ))}
         </div>
