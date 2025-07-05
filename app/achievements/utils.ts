@@ -65,8 +65,6 @@ export function getAchievements() {
   return getAchievementData(path.join(process.cwd(), 'app', 'achievements', 'posts'));
 }
 
-// --- ADD THESE FUNCTIONS BELOW ---
-
 export function getAchievementSlugs(): string[] {
   const achievements = getAchievements();
   return achievements.map((achievement) => achievement.slug);
@@ -76,8 +74,6 @@ export function getAchievementBySlug(slug: string) {
   const achievements = getAchievements();
   return achievements.find((achievement) => achievement.slug === slug) || null;
 }
-
-// --- END OF ADDITIONS ---
 
 export function formatAchievementDate(date: string): string {
   if (!date.includes('T')) {
