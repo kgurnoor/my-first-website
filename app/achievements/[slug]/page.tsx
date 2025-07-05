@@ -1,4 +1,5 @@
 // app/achievements/[slug]/page.tsx
+
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getAchievementBySlug, getAchievementSlugs } from 'app/achievements/utils';
@@ -17,7 +18,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
         return undefined;
     }
 
-    const { title, date, summary } = achievement.frontmatter;
+    const { title, date, summary } = achievement.metadata;
     const description = summary || `Read more about ${title} achieved on ${formatAchievementDate(date)}`;
     const ogImage = `${baseUrl}/og?title=${encodeURIComponent(title)}`; // Adapt as needed
 
@@ -61,16 +62,16 @@ export default async function AchievementPage({ params }: Props) {
     return (
         <section>
             <h1 className="title font-semibold text-2xl tracking-tighter">
-                {achievement.frontmatter.title}
+                {achievement.metadata.title}
             </h1>
             <div className="flex justify-between items-center mt-2 mb-8 text-sm">
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Achieved on {formatAchievementDate(achievement.frontmatter.date)}
+                    Achieved on {formatAchievementDate(achievement.metadata.date)}
                 </p>
             </div>
-            {achievement.frontmatter.summary && (
+            {achievement.metadata.summary && (
                 <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-6">
-                    {achievement.frontmatter.summary}
+                    {achievement.metadata.summary}
                 </p>
             )}
             <article className="prose dark:prose-invert max-w-3xl">
