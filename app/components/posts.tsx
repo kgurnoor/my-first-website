@@ -17,10 +17,10 @@ export function BlogPosts() {
             href={`/blog/${post.slug}`}
           >
             <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-              <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
+              <p className="text-zinc-600 dark:text-zinc-400 w-[100px] tabular-nums">
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+              <p className="text-zinc-900 dark:text-zinc-100 tracking-tight">
                 {post.metadata.title}
               </p>
             </div>
@@ -44,10 +44,10 @@ export function ProjectPosts() {
             href={`/projects/${project.slug}`}
           >
             <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-              <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
+              <p className="text-zinc-600 dark:text-zinc-400 w-[100px] tabular-nums">
                 {formatDate(project.frontmatter.date, false)}
               </p>
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+              <p className="text-zinc-900 dark:text-zinc-100 tracking-tight">
                 {project.frontmatter.title}
               </p>
             </div>
@@ -66,10 +66,10 @@ export function AchievementPosts() {
         .sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime())
         .map((achievement) => (
           <div key={achievement.slug} className="flex flex-col md:flex-row space-y-1 md:space-x-4 mb-4">
-            <p className="text-neutral-600 dark:text-neutral-400 w-[120px] tabular-nums">
+            <p className="text-zinc-600 dark:text-zinc-400 w-[120px] tabular-nums">
               {formatAchievementDate(achievement.metadata.date)}
             </p>
-            <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+            <p className="text-zinc-900 dark:text-zinc-100 tracking-tight">
               {achievement.metadata.title}
             </p>
             <Link

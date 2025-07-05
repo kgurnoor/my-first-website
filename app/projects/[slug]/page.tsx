@@ -40,11 +40,11 @@ export default async function ProjectPage({ params }: Props) {
             <h1 className="font-bold text-3xl md:text-5xl mb-4 tracking-tight">
                 {project.frontmatter.title}
             </h1>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
                 Published on {formatDate(project.frontmatter.date, true)}
             </p>
             {project.frontmatter.summary && (
-                <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-6">
+                <p className="text-lg text-zinc-700 dark:text-zinc-300 mb-6">
                     {project.frontmatter.summary}
                 </p>
             )}

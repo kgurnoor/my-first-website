@@ -1,4 +1,13 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom theme variables and tokens can be added here using @theme if desired */
+/* Example:
+@theme {
+  --color-primary: hsl(49, 100%, 7%);
+}
+*/
 
 ::selection {
   background-color: #47a3f3;
@@ -35,7 +44,6 @@ html {
 
 .prose .anchor {
   @apply absolute invisible no-underline;
-
   margin-left: -1em;
   padding-right: 0.5em;
   width: 80%;
@@ -48,20 +56,46 @@ html {
 }
 
 .prose a {
-  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+  @apply underline transition-all underline-offset-2 decoration-[0.1em];
+  text-decoration-color: #d1d5db; /* gray-300 */
+}
+@media (prefers-color-scheme: dark) {
+  .prose a {
+    text-decoration-color: #374151; /* gray-700 */
+  }
 }
 
 .prose .anchor:after {
-  @apply text-neutral-300 dark:text-neutral-700;
+  color: #d1d5db; /* gray-300 */
   content: '#';
+}
+@media (prefers-color-scheme: dark) {
+  .prose .anchor:after {
+    color: #374151; /* gray-700 */
+  }
 }
 
 .prose *:hover > .anchor {
   @apply visible;
 }
 
+/* Custom background, border, and text colors for pre/code blocks */
 .prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
+  background-color: #f9fafb;      /* gray-50 */
+  border-radius: 0.5rem;          /* rounded-lg */
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;      /* gray-200 */
+  padding-top: 0.5rem;            /* py-2 */
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;          /* px-3 */
+  padding-right: 0.75rem;
+  font-size: 0.875rem;            /* text-sm */
+}
+@media (prefers-color-scheme: dark) {
+  .prose pre {
+    background-color: #111827;    /* gray-900 */
+    border-color: #111827;        /* gray-900 */
+  }
 }
 
 .prose code {
@@ -84,7 +118,14 @@ html {
 }
 
 .prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200;
+  margin-top: 1rem;               /* my-4 */
+  margin-bottom: 1rem;
+  color: #1f2937;                 /* gray-800 */
+}
+@media (prefers-color-scheme: dark) {
+  .prose p {
+    color: #e5e7eb;               /* gray-200 */
+  }
 }
 
 .prose h1 {

@@ -65,12 +65,12 @@ export default async function AchievementPage({ params }: Props) {
                 {achievement.metadata.title}
             </h1>
             <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
                     Achieved on {formatAchievementDate(achievement.metadata.date)}
                 </p>
             </div>
             {achievement.metadata.summary && (
-                <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-6">
+                <p className="text-lg text-zinc-700 dark:text-zinc-300 mb-6">
                     {achievement.metadata.summary}
                 </p>
             )}

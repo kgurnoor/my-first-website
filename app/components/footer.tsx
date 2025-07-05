@@ -18,10 +18,10 @@ function ArrowIcon() {
 export default function Footer() {
   return (
     <footer className="mb-16">
-      <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300">
+      <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-zinc-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-zinc-300">
         <li>
           <a
-            className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+            className="flex items-center transition-all hover:text-zinc-800 dark:hover:text-zinc-100"
             rel="noopener noreferrer"
             target="_blank"
             href="/rss"
@@ -32,7 +32,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+            className="flex items-center transition-all hover:text-zinc-800 dark:hover:text-zinc-100"
             rel="noopener noreferrer"
             target="_blank"
             href="https://github.com/kgurnoor"
@@ -43,7 +43,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+            className="flex items-center transition-all hover:text-zinc-800 dark:hover:text-zinc-100"
             rel="noopener noreferrer"
             target="_blank"
             href="https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BnkIb603nTI%2BgggCvr55bog%3D%3D"
@@ -55,11 +55,11 @@ export default function Footer() {
       </ul>
 
       {/* Contact Information Section */}
-      <div className="mt-8 text-neutral-600 dark:text-neutral-300">
+      <div className="mt-8 text-zinc-600 dark:text-zinc-300">
         <p>Email: gurnoorkaur0349@gmail.com</p> 
       </div>
 
-      <p className="mt-8 text-neutral-600 dark:text-neutral-300">
+      <p className="mt-8 text-zinc-600 dark:text-zinc-300">
         © {new Date().getFullYear()} MIT Licensed
       </p>
     </footer>
