@@ -63,24 +63,34 @@ export function AchievementPosts() {
   return (
     <div>
       {allAchievements
-        .sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime())
+        .sort((a, b) =>
+          new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
+        )
         .map((achievement) => (
-          <div key={achievement.slug} className="flex flex-col md:flex-row space-y-1 md:space-x-4 mb-4">
-            <p className="text-zinc-600 dark:text-zinc-400 w-[120px] tabular-nums">
-              {formatAchievementDate(achievement.metadata.date)}
-            </p>
-            <p className="text-zinc-900 dark:text-zinc-100 tracking-tight">
-              {achievement.metadata.title}
-            </p>
-            <Link
-              href={achievement.metadata.certificateLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline mt-1 md:mt-0" // Added some basic styling
-            >
-              View Certificate
-            </Link>
-          </div>
+          <Link
+            key={achievement.slug}
+            className="flex flex-col space-y-1 mb-4 group"
+            href={`/achievements/${achievement.slug}`}
+          >
+            <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2 items-baseline">
+              <p className="text-zinc-600 dark:text-zinc-400 w-[120px] tabular-nums">
+                {formatAchievementDate(achievement.metadata.date)}
+              </p>
+              <p className="text-zinc-900 dark:text-zinc-100 tracking-tight group-hover:underline">
+                {achievement.metadata.title}
+              </p>
+              {achievement.metadata.certificateLink && (
+                <a
+                  href={achievement.metadata.certificateLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline ml-2 text-sm"
+                >
+                  View Certificate
+                </a>
+              )}
+            </div>
+          </Link>
         ))}
     </div>
   );
