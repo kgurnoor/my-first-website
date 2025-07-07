@@ -1,0 +1,116 @@
+---
+title: "AWS Pricelist Visualizer"
+date: "2025-06-30"
+summary: "A fullstack web application for exploring, filtering, and analyzing AWS service pricing with a modern React frontend, Cloudscape UI, RESTful TypeScript backend, and Vercel deployment."
+liveUrl: "https://aws-pricing-project-frontend.vercel.app/"
+githubUrl: "https://github.com/kgurnoor/aws-pricing-project"
+tags: ["React", "TypeScript", "Node.js", "AWS", "Cloudscape Design", "REST API", "Vercel", "Tailwind CSS", "Fullstack", "Pricing Visualization"]
+---
+
+## Introduction
+
+**AWS Pricelist Visualizer** is a fullstack web application designed to make AWS pricing data accessible, interactive, and visually intuitive. The app lets users browse, filter, and compare AWS service prices using a fast, modern UI and a robust backend API. This project was a deep dive into RESTful API design, frontend state management, and cloud deployment, inspired by the need for a developer-friendly AWS pricing explorer.
+
+## Key Features
+
+* **Service, Version, Region, and Product Selectors:** Dynamic dropdowns let users filter pricing data by AWS service, version, region, and usage type, all powered by live API data.
+* **Duration Selector:** Choose between different pricing models (e.g., On-Demand) with a responsive selector.
+* **Search and Sort:** Instantly search and sort the pricing table by SKU, region, or price.
+* **Professional Cloudscape UI:** Built with AWS Cloudscape Design System for an authentic AWS console feel and accessibility.
+* **Tailwind CSS Styling:** Custom color utilities and responsive layouts using Tailwind CSS for a modern look.
+* **Global and Filtered Views:** Toggle between global pricing tables and filtered results for flexible analysis.
+* **Error Handling:** Graceful UI feedback for missing data, loading states, and API errors.
+* **Deployed on Vercel:** Seamless cloud deployment for both frontend and backend, ensuring fast and reliable access.
+
+## Technologies Used
+
+* **React & TypeScript:** For a robust, type-safe, and maintainable frontend.
+* **AWS Cloudscape Design System:** For professional UI components and layout.
+* **Tailwind CSS:** For fast, utility-first styling and color management.
+* **Node.js (TypeScript):** Backend API serving AWS pricing data, with strong typing and modular endpoints.
+* **REST API:** Clean separation of frontend and backend, with endpoints for services, versions, regions, products, and pricing.
+* **Vercel:** For CI/CD, serverless API deployment, and static frontend hosting.
+
+## How It Works
+
+1. **Frontend Bootstrapping:**  
+   The React frontend (in `/frontend`) uses Cloudscape components for all selectors and tables. Tailwind CSS handles custom styles and responsive design.
+
+2. **Dynamic Data Fetching:**  
+   All selectors and tables fetch their data from the backend API, ensuring users always see the latest AWS pricing information.
+
+3. **Backend API:**  
+   The Node.js backend (in `/backend`) exposes RESTful endpoints for AWS services, versions, regions, products, and pricing. TypeScript ensures type safety and reliability.
+
+4. **Monorepo & Deployment:**  
+   The project is structured as a monorepo with separate `frontend` and `backend` folders.  
+   - **Frontend:** Deployed as a static site on Vercel.  
+   - **Backend:** Deployed as serverless functions via Vercel, with a custom `vercel.json` to route requests to the compiled JS output.
+
+5. **User Experience:**  
+   Users select services, versions, regions, and products via dropdowns, then view a searchable, sortable pricing table. The UI provides instant feedback for loading, errors, or empty results.
+
+## Getting Started
+
+To run the project locally:
+
+1. **Clone the repository:**
+    ```
+    git clone https://github.com/kgurnoor/aws-pricing-project
+    cd aws-pricing-project
+    ```
+2. **Install dependencies for both frontend and backend:**
+    ```
+    cd frontend
+    npm install
+    cd ../backend
+    npm install
+    ```
+3. **Build the backend (TypeScript to JS):**
+    ```
+    npm run build
+    ```
+4. **Run backend and frontend (in separate terminals):**
+    ```
+    # In /backend
+    node server.js
+    # In /frontend
+    npm run dev
+    ```
+5. **Visit the frontend:**  
+   Open [http://localhost:3000](http://localhost:3000) (or the port shown in your terminal).
+
+## Deployment
+
+* **Frontend:**  
+  Deployed to Vercel as a static site from the `/frontend` directory.  
+* **Backend:**  
+  Deployed to Vercel as serverless functions from the `/backend` directory, using a `vercel.json` to point to the compiled `dist/` output and route all API requests.
+* **Live App:**  
+  [aws-pricing-project-frontend.vercel.app](https://aws-pricing-project-frontend.vercel.app/)
+
+## Lessons Learned
+
+* **HTML Structure Matters:** Hydration errors can occur if block elements like `<ul>` are nested inside `<p>`. Careful attention to semantic HTML is crucial for React and Next.js apps.
+* **React Hooks Discipline:** Always call hooks at the top level—never conditionally—to avoid runtime errors and maintain predictable behavior.
+* **Vercel Routing & Monorepo Setup:** Vercel only recognizes `/api` at the project root or inside the designated project root. Setting the correct root directory and output paths is essential for successful deployment.
+* **TypeScript Across the Stack:** Strong typing in both frontend and backend caught bugs early and made refactoring easier.
+* **Cloudscape & Tailwind Synergy:** Combining AWS Cloudscape for UI structure with Tailwind for custom styles resulted in a clean, professional look with rapid iteration.
+
+## Future Enhancements
+
+* **Support for more AWS pricing models:** Add Reserved, Savings Plans, and Spot pricing.
+* **User authentication:** Allow users to save their filters and favorite services.
+* **Performance optimizations:** Caching, pagination, and smarter API batching.
+* **Advanced analytics:** Visualizations and trend analysis for AWS pricing.
+* **Improved mobile experience:** Further optimize for small screens.
+
+## Contributing
+
+Contributions, bug reports, and feature requests are welcome!  
+Check out the [GitHub repo](https://github.com/kgurnoor/aws-pricing-project) for source code, issues, and documentation.
+
+---
+
+**AWS Pricelist Visualizer** is my take on making cloud pricing more transparent and developer-friendly.  
+Try it out, and let me know what you think!

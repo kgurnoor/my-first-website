@@ -1,0 +1,89 @@
+---
+title: 'AWS Pricelist Visualizer: My Brand New Project'
+publishedAt: '2025-06-30'
+summary: 'Building and deploying a fullstack AWS pricing visualizer with React, TypeScript, Node.js, Cloudscape UI, and Vercel. Lessons learned, tech stack choices, deployment tips, and the journey from idea to production.'
+---
+
+This is a project log for **AWS Pricelist Visualizer**—my latest fullstack web app. Here’s a breakdown of what I learned and how I brought the idea to life, inspired by my experiences and the documentation style I admire.
+> **Live Demo:**  
+> [aws-pricing-project-frontend.vercel.app](https://aws-pricing-project-frontend.vercel.app/)
+## The Idea: Why an AWS Pricelist Visualizer?
+
+As someone fascinated by cloud infrastructure and developer experience, I wanted a tool to make AWS pricing more accessible and interactive. The official AWS pricing pages are comprehensive but often overwhelming. My goal: build a visual, searchable, and filterable interface for AWS service prices, with a focus on clarity and speed.
+
+## Tech Stack Choices
+
+- **Frontend:** React (with TypeScript), AWS Cloudscape Design System for UI, Tailwind CSS for custom styling.
+- **Backend:** Node.js (TypeScript), RESTful API architecture, organized for easy extension.
+- **Deployment:** Vercel, leveraging its serverless API routes and seamless frontend hosting.
+- **Version Control:** GitHub ([repo link](https://github.com/kgurnoor/aws-pricing-project))
+
+## Building the Frontend
+
+I started by scaffolding the frontend with React and TypeScript inside a `/frontend` directory. For UI, I chose [AWS Cloudscape Design](https://cloudscape.design/)—it’s modern, accessible, and fits AWS use cases perfectly. Tailwind CSS handled custom styling, especially for color utilities and responsive layouts.
+
+### Key Features:
+- **Service, Region, Product, and Duration Selectors:** All powered by React hooks and dynamic API data.
+- **Pricing Table:** Sortable, searchable, and filterable, inspired by AWS’s own interfaces.
+- **Global Search & Discount Info:** Fast toggling between filtered and global views.
+
+## Building the Backend
+
+The backend lives in `/backend`, written in TypeScript and compiled to JavaScript for deployment. I organized the API logic for clarity and future growth, using RESTful endpoints to serve version, product, region, and pricing data.
+
+### API Architecture Highlights:
+- **Separation of Concerns:** Each endpoint has a clear responsibility.
+- **TypeScript for Safety:** Strong typing for all API responses.
+- **Error Handling:** Consistent error responses and logging.
+
+## Solving Common Challenges
+
+### 1. **React Hydration & HTML Structure**
+I ran into classic hydration errors, especially with invalid HTML like `<ul>` inside `<p>`. I learned to always keep block elements outside of paragraphs, and to check component structure carefully.
+
+### 2. **React Hook Order**
+React’s rules of hooks are strict—no conditional or nested hook calls! After some trial and error, I made sure all hooks are called at the top level of each component, avoiding mysterious runtime errors.
+
+### 3. **API Route Deployment on Vercel**
+Vercel only recognizes `/api` at the project root. I initially placed my backend API in `/frontend/api`, which resulted in 404 errors. The fix: move `/api` to the project root (or, for monorepo setups, set the correct root directory in Vercel’s dashboard).
+
+### 4. **Monorepo Deployment on Vercel: Fullstack Journey**
+
+Given the monorepo structure (`/frontend` and `/backend`), my deployment approach evolved:
+
+- **First, I deployed the backend only:**  
+  I set the Vercel project root to `/backend`, configured the build output and routing with `vercel.json`, and ensured the serverless API worked as expected.
+- **Then, I deployed the frontend:**  
+  I set up a new Vercel project with the root directory as `/frontend` and selected the Vite preset for fast React builds.
+- **Connecting frontend to backend:**  
+  To enable the frontend to communicate with the backend, I set an environment variable in the frontend Vercel project pointing to the deployed backend’s domain. This allowed the frontend to make API requests to the correct backend URL, regardless of deployment environment.
+
+This separation ensured that both parts of the app could be independently developed, deployed, and scaled, while still working together seamlessly in production.
+
+## Deployment: Going Live with Vercel
+
+Deploying to Vercel was smooth once the project structure was right:
+- **Backend:** Set the root directory to `/backend` in the Vercel dashboard, configured the build and routing with `vercel.json`, and deployed the compiled serverless API.
+- **Frontend:** Set the root directory to `/frontend`, selected the Vite preset for optimal React builds, and configured the environment variable (`VITE_API_URL`) to the backend’s deployed URL.
+- **Result:** Both frontend and backend are independently deployed, but fully integrated thanks to environment-based API endpoint configuration.
+
+## Lessons Learned
+
+- **Read the Docs:** Vercel’s routing and build system is powerful, but only if you follow the conventions.
+- **Component Structure Matters:** HTML validity and React hook order are non-negotiable for a stable app.
+- **TypeScript Everywhere:** Strong typing in both frontend and backend pays off in reliability and maintainability.
+- **Monorepo Deployments:** Vercel supports them well, but requires careful configuration of root directories, build outputs, and environment variables for cross-service communication.
+
+## What’s Next?
+
+- Add more AWS services and pricing models.
+- Improve performance for large datasets.
+- Deploy the frontend and backend together, possibly with shared environment variables and CI/CD.
+
+## Conclusion
+
+Building the **AWS Pricelist Visualizer** has been a deep dive into modern fullstack development: React, TypeScript, Cloudscape UI, REST APIs, and Vercel’s cloud platform.  
+I’m excited to keep iterating and sharing what I learn.  
+Check out the [GitHub repo](https://github.com/kgurnoor/aws-pricing-project) for source code, and feel free to open issues or contribute!
+
+Thanks for reading!
